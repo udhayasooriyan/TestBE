@@ -5,26 +5,28 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://test-jeat.onrender.com/auth/slack",
+      `${process.env.REDIRECT_URI}`,
       "*",
+      `https://slack.com/oauth/v2/authorize?scope=identity.basic&client_id=${process.env.SLACK_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}`,
+      "",
     ],
     credentials: true,
   })
 );
 
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+//   res.setHeader("Access-Control-Allow-Credentials", true);
+//   next();
+// });
 
 app.get("/", (req, res) => {
   res.send("connected to BE");
