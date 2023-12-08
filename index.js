@@ -5,7 +5,18 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://test-jeat.onrender.com/auth/slack",
+      "*",
+    ],
+    credentials: true,
+  })
+);
 
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
